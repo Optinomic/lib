@@ -4,7 +4,7 @@ $pageTitle = "React and ag-Grid, the Perfect Match";
 $pageDescription = "ag-Grid is a world leading Enterprise Javascript Data-Grid. React is a world leading Javascript Javascript Rendering Library. This page explains how they both work really well together.";
 $pageKeyboards = "react ag-grid javascript grid";
 
-__opapp_include('../mediaHeader.php');
+__opapp_include(../../../../../'../mediaHeader.php');
 ?>
 
 <div class="row">
@@ -150,5 +150,5 @@ __opapp_include('../mediaHeader.php');
 </footer>
 
 <?php
-__opapp_include('../mediaFooter.php');
+__opapp_include(../../../../../'../mediaFooter.php');
 ?>

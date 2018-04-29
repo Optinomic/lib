@@ -1,1 +1,1 @@
-__opapp_include(../lib/polymer/run.html)
+__opapp_include(../../polymer/run.html)
