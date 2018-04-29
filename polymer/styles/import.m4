@@ -15,8 +15,8 @@ body {
 
 
 
-__opapp_include(../../polymer/styles/shared-style-typography.css)
-__opapp_include(../../polymer/styles/shared-style-paper-button.css)
-__opapp_include(../../polymer/styles/shared-style-paper-icon-button.css)
-__opapp_include(../../polymer/styles/shared-style-paper-progress.css)
-__opapp_include(../../polymer/styles/shared-style-specials.css)
+__opapp_include(../polymer/styles/shared-style-typography.css)
+__opapp_include(../polymer/styles/shared-style-paper-button.css)
+__opapp_include(../polymer/styles/shared-style-paper-icon-button.css)
+__opapp_include(../polymer/styles/shared-style-paper-progress.css)
+__opapp_include(../polymer/styles/shared-style-specials.css)
