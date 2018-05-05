@@ -1,1 +1,1 @@
-__opapp_include(../polymer2/behaviors/behavior-patient.html)
+__opapp_include(../../polymer2/behaviors/behavior-patient.html)
