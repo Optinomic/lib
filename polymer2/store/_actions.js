@@ -742,6 +742,9 @@ const AsyncActionsBehavior = {
                       "found": "false",
                       "name": null
                     };
+                    
+                    // Safty - not breakting thins
+                    m.identifier = m.module.identifier;
 
                     if (m.module.templates.length > 0) {
                       m.first_template.name = m.module.templates["0"].name;
@@ -776,6 +779,9 @@ const AsyncActionsBehavior = {
                       "found": "false",
                       "name": null
                     };
+
+                    // Safty - not breakting thins
+                    m.identifier = m.module.identifier;
 
                     if (m.module.templates.length > 0) {
                       m.first_template.name = m.module.templates["0"].name;
