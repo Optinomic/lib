@@ -174,7 +174,7 @@ const AsyncActionsBehavior = {
                 dispatch({
                     type: 'GET_DATA_STARTED'
                 });
-                const api_url = '/modules/';
+                const api_url = '/module_activations/';
                 // Do async task
                 helpers.callAPI('GET', api_url, {}, {}, function(req) {
                     if (req.status == 200) {
@@ -198,7 +198,7 @@ const AsyncActionsBehavior = {
                         };
 
                         patient_modules.forEach(function(pm, pmID) {
-                            if (pm.identifier === helpers.getAppID()) {
+                            if (pm.module.identifier === helpers.getAppID()) {
                                 response.current.data = pm;
                                 response.current.name = pm.name;
                                 response.current.found = true;
@@ -207,7 +207,7 @@ const AsyncActionsBehavior = {
 
                         if (!response.current.found) {
                             user_modules.forEach(function(um, pmID) {
-                                if (um.identifier === helpers.getAppID()) {
+                                if (um.module.identifier === helpers.getAppID()) {
                                     response.current.data = um;
                                     response.current.name = um.name;
                                     response.current.found = true;
