@@ -6,20 +6,20 @@ const AsyncActionsBehavior = {
     // User
     // ----------------------------------
 
-    getCurrentUser: function(user_id) {
+    getCurrentUser: function (user_id) {
 
       var api_url = '/users/' + user_id;
       var state_path = 'user.info';
 
       if (ApiHelpers.shouldCallNow(api_url)) {
 
-        return function(dispatch) {
+        return function (dispatch) {
           dispatch({
             type: 'GET_DATA_STARTED'
           });
 
           // Do async task
-          ApiHelpers.callAPI('GET', api_url, {}, {}, function(req) {
+          ApiHelpers.callAPI('GET', api_url, {}, {}, function (req) {
             if (req.status == 200) {
 
               var resp = JSON.parse(req.response);
@@ -56,24 +56,24 @@ const AsyncActionsBehavior = {
           });
         };
       } else {
-        return function(dispatch) {};
+        return function (dispatch) {};
       };
     },
 
-    getCurrentUserAnnotations: function(user_id) {
+    getCurrentUserAnnotations: function (user_id) {
 
       var api_url = '/users/' + user_id + '/annotations';
       var state_path = 'user.annotations';
 
       if (ApiHelpers.shouldCallNow(api_url)) {
 
-        return function(dispatch) {
+        return function (dispatch) {
           dispatch({
             type: 'GET_DATA_STARTED'
           });
 
           // Do async task
-          ApiHelpers.callAPI('GET', api_url, {}, {}, function(req) {
+          ApiHelpers.callAPI('GET', api_url, {}, {}, function (req) {
             if (req.status == 200) {
 
               var annotations = JSON.parse(req.response);
@@ -102,11 +102,11 @@ const AsyncActionsBehavior = {
           });
         };
       } else {
-        return function(dispatch) {};
+        return function (dispatch) {};
       };
     },
 
-    getCurrentUserEvents: function(user_id, status) {
+    getCurrentUserEvents: function (user_id, status) {
 
       var api_url = '/users/' + user_id + '/events';
       var state_path = 'user.events';
@@ -121,19 +121,19 @@ const AsyncActionsBehavior = {
 
       if (ApiHelpers.shouldCallNow(api_url)) {
 
-        return function(dispatch) {
+        return function (dispatch) {
           dispatch({
             type: 'GET_DATA_STARTED'
           });
 
           // Do async task
-          ApiHelpers.callAPI('GET', api_url, parmeters, {}, function(req) {
+          ApiHelpers.callAPI('GET', api_url, parmeters, {}, function (req) {
             if (req.status == 200) {
 
               var events = JSON.parse(req.response);
-              events.user_events.forEach(function(item, itemID) {
+              events.user_events.forEach(function (item, itemID) {
                 event_pid = item.data.patient_id;
-                ApiHelpers.callAPI('GET', '/patients/' + event_pid, {}, {}, function(req) {
+                ApiHelpers.callAPI('GET', '/patients/' + event_pid, {}, {}, function (req) {
                   if (req.status == 200) {
 
                     var resp = JSON.parse(req.response);
@@ -151,9 +151,9 @@ const AsyncActionsBehavior = {
                 });
               });
 
-              events.role_events.forEach(function(item, itemID) {
+              events.role_events.forEach(function (item, itemID) {
                 event_pid = item.data.patient_id;
-                ApiHelpers.callAPI('GET', '/patients/' + event_pid, {}, {}, function(req) {
+                ApiHelpers.callAPI('GET', '/patients/' + event_pid, {}, {}, function (req) {
                   if (req.status == 200) {
 
                     var resp = JSON.parse(req.response);
@@ -179,7 +179,7 @@ const AsyncActionsBehavior = {
 
               var time = (events.role_events.length + events.user_events.length + 1) * 250;
 
-              setTimeout(function() {
+              setTimeout(function () {
                 dispatch({
                   "type": "SET_OBJECT",
                   "data": response,
@@ -214,7 +214,7 @@ const AsyncActionsBehavior = {
           });
         };
       } else {
-        return function(dispatch) {};
+        return function (dispatch) {};
       };
     },
 
@@ -222,17 +222,17 @@ const AsyncActionsBehavior = {
     // Patient (Current)
     // ----------------------------------
 
-    getCurrentPatient: function(pid) {
+    getCurrentPatient: function (pid) {
 
       var api_url = '/patients/' + pid;
       var state_path = 'patients.' + pid + '.info';
 
       if (ApiHelpers.shouldCallNow(api_url)) {
 
-        return function(dispatch) {
+        return function (dispatch) {
 
           // Do async task
-          ApiHelpers.callAPI('GET', api_url, {}, {}, function(req) {
+          ApiHelpers.callAPI('GET', api_url, {}, {}, function (req) {
             if (req.status == 200) {
 
               var resp = JSON.parse(req.response);
@@ -271,21 +271,21 @@ const AsyncActionsBehavior = {
           });
         };
       } else {
-        return function(dispatch) {};
+        return function (dispatch) {};
       };
     },
 
-    getCurrentPatientAccess: function(pid) {
+    getCurrentPatientAccess: function (pid) {
 
       var api_url = '/patients/' + pid + '/access';
       var state_path = 'patients.' + pid + '.access';
 
       if (ApiHelpers.shouldCallNow(api_url)) {
 
-        return function(dispatch) {
+        return function (dispatch) {
 
           // Do async task
-          ApiHelpers.callAPI('GET', api_url, {}, {}, function(req) {
+          ApiHelpers.callAPI('GET', api_url, {}, {}, function (req) {
             if (req.status == 204) {
 
               var response = {
@@ -316,27 +316,27 @@ const AsyncActionsBehavior = {
           });
         };
       } else {
-        return function(dispatch) {};
+        return function (dispatch) {};
       };
     },
 
-    getCurrentPatientStays: function(pid) {
+    getCurrentPatientStays: function (pid) {
       var api_url = '/patients/' + pid + '/stays';
       var state_path = 'patients.' + pid + '.stays';
 
       if (ApiHelpers.shouldCallNow(api_url)) {
 
-        return function(dispatch) {
+        return function (dispatch) {
 
           // Do async task
-          ApiHelpers.callAPI('GET', api_url, {}, {}, function(req) {
+          ApiHelpers.callAPI('GET', api_url, {}, {}, function (req) {
             if (req.status == 200) {
 
               var resp = JSON.parse(req.response);
 
               var stays = resp.stays;
               var stays_array = [];
-              stays.forEach(function(stay, ID) {
+              stays.forEach(function (stay, ID) {
                 stays_array.push(stay.id);
 
                 stay.data.id = stay.id;
@@ -382,21 +382,21 @@ const AsyncActionsBehavior = {
           });
         };
       } else {
-        return function(dispatch) {};
+        return function (dispatch) {};
       };
     },
 
-    getCurrentPatientEvents: function(pid) {
+    getCurrentPatientEvents: function (pid) {
 
       var api_url = '/patients/' + pid + '/events';
       var state_path = 'patients.' + pid + '.events';
 
       if (ApiHelpers.shouldCallNow(api_url)) {
 
-        return function(dispatch) {
+        return function (dispatch) {
 
           // Do async task
-          ApiHelpers.callAPI('GET', api_url, {}, {}, function(req) {
+          ApiHelpers.callAPI('GET', api_url, {}, {}, function (req) {
             if (req.status == 200) {
 
               var resp = JSON.parse(req.response);
@@ -406,7 +406,7 @@ const AsyncActionsBehavior = {
               var events_to_be_done = [];
               var events_aborted = [];
               var events_irrelevant = [];
-              events.forEach(function(event, ID) {
+              events.forEach(function (event, ID) {
                 event.data.id = event.id;
                 event.data.event_id = event.id;
                 event.extras = createEventExtras(event.data);
@@ -461,7 +461,7 @@ const AsyncActionsBehavior = {
           });
         };
       } else {
-        return function(dispatch) {};
+        return function (dispatch) {};
       };
     },
 
@@ -470,85 +470,136 @@ const AsyncActionsBehavior = {
     // Apps
     // ----------------------------------
 
-    getApps: function() {
+    getApps: function () {
 
-      var api_url = '/modules';
+      var api_url = '/module_activations';
       var state_path = 'apps.all';
 
       if (ApiHelpers.shouldCallNow(api_url)) {
 
-        return function(dispatch) {
+        return function (dispatch) {
 
           var parameters = {}
 
           // Do async task
-          ApiHelpers.callAPI('GET', api_url, parameters, {}, function(req) {
+          ApiHelpers.callAPI('GET', api_url, parameters, {}, function (req) {
             if (req.status == 200) {
 
-
               var resp = JSON.parse(req.response);
+              var hotloaded = [];
 
               // Sortieren nach App-Name
-              if (resp.patient_modules.length > 0) {
-                resp.patient_modules.sort(function(a, b) {
-                  var nameA = a.name.toUpperCase(); // ignore upper and lowercase
-                  var nameB = b.name.toUpperCase(); // ignore upper and lowercase
-                  if (nameA < nameB) {
-                    return -1;
-                  }
-                  if (nameA > nameB) {
-                    return 1;
-                  }
-                  return 0;
-                });
+              if ("patient_modules" in resp) {
+                if (resp.patient_modules.length > 0) {
+                  resp.patient_modules.sort(function (a, b) {
+                    var nameA = a.module.name.toUpperCase(); // ignore upper and lowercase
+                    var nameB = b.module.name.toUpperCase(); // ignore upper and lowercase
+                    if (nameA < nameB) {
+                      return -1;
+                    }
+                    if (nameA > nameB) {
+                      return 1;
+                    }
+                    return 0;
+                  });
+
+                  resp.patient_modules.forEach(function (m, mID) {
+                    m.first_template = {
+                      "found": "false",
+                      "name": null
+                    };
+
+                    // Safty - not breakting thins
+                    m.identifier = m.module.identifier;
+
+                    if (m.module.templates.length > 0) {
+                      m.first_template.name = m.module.templates["0"].name;
+                      m.first_template.found = true;
+                    };
+
+                    if (m.module_activation.data.overwritten) {
+                      hotloaded.push(m);
+                    };
+
+                  });
+
+                };
               };
-              if (resp.user_modules.length > 0) {
-                resp.user_modules.sort(function(a, b) {
-                  var nameA = a.name.toUpperCase(); // ignore upper and lowercase
-                  var nameB = b.name.toUpperCase(); // ignore upper and lowercase
-                  if (nameA < nameB) {
-                    return -1;
-                  }
-                  if (nameA > nameB) {
-                    return 1;
-                  }
-                  return 0;
-                });
+              if ("user_modules" in resp) {
+
+                if (resp.user_modules.length > 0) {
+                  resp.user_modules.sort(function (a, b) {
+                    var nameA = a.module.name.toUpperCase(); // ignore upper and lowercase
+                    var nameB = b.module.name.toUpperCase(); // ignore upper and lowercase
+                    if (nameA < nameB) {
+                      return -1;
+                    }
+                    if (nameA > nameB) {
+                      return 1;
+                    }
+                    return 0;
+                  });
+
+                  resp.user_modules.forEach(function (m, mID) {
+                    m.first_template = {
+                      "found": "false",
+                      "name": null
+                    };
+
+                    // Safty - not breakting thins
+                    m.identifier = m.module.identifier;
+
+                    if (m.module.templates.length > 0) {
+                      m.first_template.name = m.module.templates["0"].name;
+                      m.first_template.found = true;
+                    };
+
+                    if (m.module_activation.data.overwritten) {
+                      hotloaded.push(m);
+                    };
+                  });
+                };
               };
 
               var response = {
                 "data": {
                   "patient_modules": resp.patient_modules,
-                  "user_modules": resp.user_modules
+                  "user_modules": resp.user_modules,
+                  "errors": resp.errors,
+                  "hotloaded": hotloaded
                 }
               };
 
+              response = addOptinomicExtras(response, api_url);
+              dispatch({
+                "type": "SET_OBJECT",
+                "data": response,
+                "statePath": state_path
+              });
+
               console.log('(✔) Data (' + api_url + '):', response, parameters);
             } else {
-              var response = {
-                "error": true,
-                "error_message": "Failed with status code: " + req.status,
-                "status_code": req.status
+              // Errorhandling
+              // While what action with what params error happend
+              var error_action = {
+                "name": "getApps",
+                "params": []
               };
-              console.error('(!) Error: ', response);
+
+              dispatch({
+                "type": "ERROR",
+                "error": handleError(req, error_action)
+              });
             };
-
-            response = addOptinomicExtras(response, api_url);
-            dispatch({
-              "type": "SET_OBJECT",
-              "data": response,
-              "statePath": state_path
-
-            });
 
           });
         };
       } else {
-        return function(dispatch) {};
+        return function (dispatch) {};
       };
     },
 
-    getAppsActivations: function() {
+    getAppsActivations: function () {
 
       // Unneded for now!
 
@@ -557,12 +608,12 @@ const AsyncActionsBehavior = {
 
       if (ApiHelpers.shouldCallNow(api_url)) {
 
-        return function(dispatch) {
+        return function (dispatch) {
 
           var parameters = {}
 
           // Do async task
-          ApiHelpers.callAPI('GET', api_url, parameters, {}, function(req) {
+          ApiHelpers.callAPI('GET', api_url, parameters, {}, function (req) {
             if (req.status == 200) {
 
               var resp = JSON.parse(req.response);
@@ -592,11 +643,11 @@ const AsyncActionsBehavior = {
           });
         };
       } else {
-        return function(dispatch) {};
+        return function (dispatch) {};
       };
     },
 
-    getStayApps: function(pid, fid, always) {
+    getStayApps: function (pid, fid, always) {
 
       always = always || false;
       var api_url = '/patients/' + pid + '/modules';
@@ -604,7 +655,7 @@ const AsyncActionsBehavior = {
 
       if (always ||  (ApiHelpers.shouldCallNow(api_url + "?" + pid + "," + fid))) {
 
-        return function(dispatch) {
+        return function (dispatch) {
 
           var parameters = {}
 
@@ -613,14 +664,14 @@ const AsyncActionsBehavior = {
           };
 
           // Do async task
-          ApiHelpers.callAPI('GET', api_url, parameters, {}, function(req) {
+          ApiHelpers.callAPI('GET', api_url, parameters, {}, function (req) {
             if (req.status == 200) {
 
               var resp = JSON.parse(req.response);
 
               // Sortieren nach App-Name
               if (resp.activated_patient_uses_modules.length > 0) {
-                resp.activated_patient_uses_modules.sort(function(a, b) {
+                resp.activated_patient_uses_modules.sort(function (a, b) {
                   var nameA = a.module.name.toUpperCase(); // ignore upper and lowercase
                   var nameB = b.module.name.toUpperCase(); // ignore upper and lowercase
                   if (nameA < nameB) {
@@ -634,7 +685,7 @@ const AsyncActionsBehavior = {
               };
 
               if (resp.deactivated_modules.length > 0) {
-                resp.deactivated_modules.sort(function(a, b) {
+                resp.deactivated_modules.sort(function (a, b) {
                   var nameA = a.name.toUpperCase(); // ignore upper and lowercase
                   var nameB = b.name.toUpperCase(); // ignore upper and lowercase
                   if (nameA < nameB) {
@@ -673,17 +724,17 @@ const AsyncActionsBehavior = {
           });
         };
       } else {
-        return function(dispatch) {};
+        return function (dispatch) {};
       };
     },
 
-    activateApp: function(pid, fid, aid) {
+    activateApp: function (pid, fid, aid) {
 
       var api_url = '/patients/' + pid + '/activate_module';
 
       if (ApiHelpers.shouldCallNow(api_url + "?" + fid + "/" + aid)) {
 
-        return function(dispatch) {
+        return function (dispatch) {
 
           var parameters = {}
 
@@ -693,7 +744,7 @@ const AsyncActionsBehavior = {
           };
 
           // Do async task
-          ApiHelpers.callAPI('POST', api_url, parameters, {}, function(req) {
+          ApiHelpers.callAPI('POST', api_url, parameters, {}, function (req) {
             if (req.status == 204) {
               console.log('(✔) Success :: ', pid, fid, aid, ' activated');
 
@@ -707,17 +758,17 @@ const AsyncActionsBehavior = {
           });
         };
       } else {
-        return function(dispatch) {};
+        return function (dispatch) {};
       };
     },
 
-    deactivateApp: function(pid, fid, aid) {
+    deactivateApp: function (pid, fid, aid) {
 
       var api_url = '/patients/' + pid + '/deactivate_module';
 
       if (ApiHelpers.shouldCallNow(api_url + "?" + fid + "/" + aid)) {
 
-        return function(dispatch) {
+        return function (dispatch) {
 
           var parameters = {}
 
@@ -727,7 +778,7 @@ const AsyncActionsBehavior = {
           };
 
           // Do async task
-          ApiHelpers.callAPI('POST', api_url, parameters, {}, function(req) {
+          ApiHelpers.callAPI('POST', api_url, parameters, {}, function (req) {
             if (req.status == 204) {
               console.log('(✔) Success :: ', pid, fid, aid, ' deactivated');
 
@@ -740,7 +791,7 @@ const AsyncActionsBehavior = {
           });
         };
       } else {
-        return function(dispatch) {};
+        return function (dispatch) {};
       };
     },
 
@@ -749,7 +800,7 @@ const AsyncActionsBehavior = {
     // Apps - User
     // ----------------------------------
 
-    getUserApps: function(uid, always) {
+    getUserApps: function (uid, always) {
       always = always || false;
       // GET /users/:user_id/modules
       uid = uid || Session.getUserID();
@@ -758,12 +809,12 @@ const AsyncActionsBehavior = {
 
       if ((always === true) || (ApiHelpers.shouldCallNow(api_url))) {
 
-        return function(dispatch) {
+        return function (dispatch) {
 
           var parameters = {}
 
           // Do async task
-          ApiHelpers.callAPI('GET', api_url, parameters, {}, function(req) {
+          ApiHelpers.callAPI('GET', api_url, parameters, {}, function (req) {
             if (req.status == 200) {
 
               var resp = JSON.parse(req.response);
@@ -771,7 +822,7 @@ const AsyncActionsBehavior = {
 
               // user_uses_modules
               var user_uses_modules = [];
-              resp.user_uses_modules.forEach(function(app, moduleID) {
+              resp.user_uses_modules.forEach(function (app, moduleID) {
                 if (app.module !== null) {
                   user_uses_modules.push(app);
                 };
@@ -781,7 +832,7 @@ const AsyncActionsBehavior = {
 
               // Sortieren nach App-Name
               if (user_uses_modules.length > 0) {
-                user_uses_modules.sort(function(a, b) {
+                user_uses_modules.sort(function (a, b) {
                   var nameA = a.module.name.toUpperCase(); // ignore upper and lowercase
                   var nameB = b.module.name.toUpperCase(); // ignore upper and lowercase
                   if (nameA < nameB) {
@@ -818,24 +869,24 @@ const AsyncActionsBehavior = {
           });
         };
       } else {
-        return function(dispatch) {};
+        return function (dispatch) {};
       };
     },
 
-    activateUserApp: function(uid, aid) {
+    activateUserApp: function (uid, aid) {
 
       var api_url = '/users/' + uid + '/activate_module';
 
       if (ApiHelpers.shouldCallNow(api_url + "?" + aid)) {
 
-        return function(dispatch) {
+        return function (dispatch) {
 
           var parameters = {
             "module_identifier": aid
           }
 
           // Do async task
-          ApiHelpers.callAPI('POST', api_url, parameters, {}, function(req) {
+          ApiHelpers.callAPI('POST', api_url, parameters, {}, function (req) {
             if (req.status == 204) {
               console.log('(✔) Success :: ', uid, aid, ' activated');
               this.dispatch('getUserApps', Session.getUserID(), true);
@@ -845,24 +896,24 @@ const AsyncActionsBehavior = {
           }.bind(this));
         };
       } else {
-        return function(dispatch) {};
+        return function (dispatch) {};
       };
     },
 
-    deactivateUserApp: function(uid, aid) {
+    deactivateUserApp: function (uid, aid) {
 
       var api_url = '/users/' + uid + '/deactivate_module';
 
       if (ApiHelpers.shouldCallNow(api_url + "?" + aid)) {
 
-        return function(dispatch) {
+        return function (dispatch) {
 
           var parameters = {
             "module_identifier": aid
           }
 
           // Do async task
-          ApiHelpers.callAPI('POST', api_url, parameters, {}, function(req) {
+          ApiHelpers.callAPI('POST', api_url, parameters, {}, function (req) {
             if (req.status == 204) {
               console.log('(✔) Success :: ', uid, aid, ' deactivated');
               this.dispatch('getUserApps', Session.getUserID(), true);
@@ -872,7 +923,7 @@ const AsyncActionsBehavior = {
           }.bind(this));
         };
       } else {
-        return function(dispatch) {};
+        return function (dispatch) {};
       };
     },
 
@@ -881,26 +932,26 @@ const AsyncActionsBehavior = {
     // Patient - Lists
     // ----------------------------------
 
-    getAllPatients: function() {
+    getAllPatients: function () {
 
       var api_url = '/patients';
       var state_path = 'patients_list.all';
 
       if (ApiHelpers.shouldCallNow(api_url)) {
 
-        return function(dispatch) {
+        return function (dispatch) {
           dispatch({
             type: 'GET_DATA_STARTED'
           });
 
           // Do async task
-          ApiHelpers.callAPI('GET', api_url, {}, {}, function(req) {
+          ApiHelpers.callAPI('GET', api_url, {}, {}, function (req) {
             if (req.status == 200) {
 
               var resp = JSON.parse(req.response);
 
               var patients = resp.patients;
-              patients.forEach(function(patient, ID) {
+              patients.forEach(function (patient, ID) {
                 patient.data.id = patient.id;
                 patient.data.fid = patient.id;
                 patient.extras = createPatientExtras(patient.data);
@@ -930,30 +981,30 @@ const AsyncActionsBehavior = {
           });
         };
       } else {
-        return function(dispatch) {};
+        return function (dispatch) {};
       };
     },
 
-    getFilterPatients: function(filter) {
+    getFilterPatients: function (filter) {
 
       var api_url = '/patients';
       var state_path = 'patients_list.filter';
 
       if (ApiHelpers.shouldCallNow(api_url)) {
 
-        return function(dispatch) {
+        return function (dispatch) {
           dispatch({
             type: 'GET_DATA_STARTED'
           });
 
           // Do async task
-          ApiHelpers.callAPI('GET', api_url, filter, {}, function(req) {
+          ApiHelpers.callAPI('GET', api_url, filter, {}, function (req) {
             if (req.status == 200) {
 
               var resp = JSON.parse(req.response);
 
               var patients = resp.patients;
-              patients.forEach(function(patient, ID) {
+              patients.forEach(function (patient, ID) {
                 patient.data.id = patient.id;
                 patient.data.fid = patient.id;
                 patient.extras = createPatientExtras(patient.data);
@@ -983,24 +1034,24 @@ const AsyncActionsBehavior = {
           });
         };
       } else {
-        return function(dispatch) {};
+        return function (dispatch) {};
       };
     },
 
-    getWatchlistPatients: function(user_id) {
+    getWatchlistPatients: function (user_id) {
 
       user_id = user_id || Session.getUserID();
       var api_url = '/watchlist/' + user_id;
       var state_path = 'patients_list.watchlist';
 
 
-      return function(dispatch) {
+      return function (dispatch) {
         dispatch({
           type: 'GET_DATA_STARTED'
         });
 
         // Do async task
-        ApiHelpers.callAPI('GET', api_url, {}, {}, function(req) {
+        ApiHelpers.callAPI('GET', api_url, {}, {}, function (req) {
           if (req.status == 200) {
 
             var resp = JSON.parse(req.response);
@@ -1008,7 +1059,7 @@ const AsyncActionsBehavior = {
             var patients = resp.patients;
 
 
-            patients.forEach(function(patient, ID) {
+            patients.forEach(function (patient, ID) {
               patient.data.id = patient.id;
               patient.data.fid = patient.id;
               patient.extras = createPatientExtras(patient.data);
@@ -1016,7 +1067,7 @@ const AsyncActionsBehavior = {
 
             // Sortieren nach App-Name
             if (patients.length > 0) {
-              patients.sort(function(a, b) {
+              patients.sort(function (a, b) {
                 var nameA = a.extras.name.toUpperCase(); // ignore upper and lowercase
                 var nameB = b.extras.name.toUpperCase(); // ignore upper and lowercase
                 if (nameA < nameB) {
@@ -1055,7 +1106,7 @@ const AsyncActionsBehavior = {
       };
     },
 
-    getPGPatients: function(pg_id) {
+    getPGPatients: function (pg_id) {
 
       pg_id = pg_id || 1;
       var api_url = "/patient_groups/" + pg_id + "/patients";
@@ -1063,19 +1114,19 @@ const AsyncActionsBehavior = {
 
       if (ApiHelpers.shouldCallNow(api_url)) {
 
-        return function(dispatch) {
+        return function (dispatch) {
           dispatch({
             type: 'GET_DATA_STARTED'
           });
 
           // Do async task
-          ApiHelpers.callAPI('GET', api_url, {}, {}, function(req) {
+          ApiHelpers.callAPI('GET', api_url, {}, {}, function (req) {
             if (req.status == 200) {
 
               var resp = JSON.parse(req.response);
 
               var patients = resp.patients;
-              patients.forEach(function(patient, ID) {
+              patients.forEach(function (patient, ID) {
                 patient.data.id = patient.id;
                 patient.data.fid = patient.id;
                 patient.extras = createPatientExtras(patient.data);
@@ -1105,26 +1156,26 @@ const AsyncActionsBehavior = {
           });
         };
       } else {
-        return function(dispatch) {};
+        return function (dispatch) {};
       };
     },
 
-    getAllPG: function() {
+    getAllPG: function () {
       var api_url = '/patient_groups';
 
       if (ApiHelpers.shouldCallNow(api_url)) {
 
-        return function(dispatch) {
+        return function (dispatch) {
 
           // Do async task
-          ApiHelpers.callAPI('GET', api_url, {}, {}, function(req) {
+          ApiHelpers.callAPI('GET', api_url, {}, {}, function (req) {
             if (req.status == 200) {
 
               var resp = JSON.parse(req.response);
 
               var patient_groups = resp.patient_groups;
               var patient_groups_array = [];
-              patient_groups.forEach(function(pg, pgID) {
+              patient_groups.forEach(function (pg, pgID) {
                 patient_groups_array.push(pg.id);
 
                 pg.data.id = pg.id;
@@ -1162,27 +1213,27 @@ const AsyncActionsBehavior = {
           });
         };
       } else {
-        return function(dispatch) {};
+        return function (dispatch) {};
       };
     },
 
-    getUserPG: function() {
+    getUserPG: function () {
 
       var api_url = '/patient_group_watchlist/' + Session.getUserID();
 
       if (ApiHelpers.shouldCallNow(api_url)) {
 
-        return function(dispatch) {
+        return function (dispatch) {
 
           // Do async task
-          ApiHelpers.callAPI('GET', api_url, {}, {}, function(req) {
+          ApiHelpers.callAPI('GET', api_url, {}, {}, function (req) {
             if (req.status == 200) {
 
               var resp = JSON.parse(req.response);
 
               var patient_groups = resp.patient_groups;
               var patient_groups_array = [];
-              patient_groups.forEach(function(pg, pgID) {
+              patient_groups.forEach(function (pg, pgID) {
                 patient_groups_array.push(pg.id);
 
                 pg.data.id = pg.id;
@@ -1220,7 +1271,7 @@ const AsyncActionsBehavior = {
           });
         };
       } else {
-        return function(dispatch) {};
+        return function (dispatch) {};
       };
     },
 
@@ -1229,7 +1280,7 @@ const AsyncActionsBehavior = {
     // Clinic
     // ----------------------------------
 
-    getClinic: function() {
+    getClinic: function () {
 
       var api_url = '/clinic';
       var state_path = 'clinic.info';
@@ -1237,17 +1288,17 @@ const AsyncActionsBehavior = {
 
       if (ApiHelpers.shouldCallNow(api_url)) {
 
-        return function(dispatch) {
+        return function (dispatch) {
 
           // Do async task
-          ApiHelpers.callAPI('GET', api_url, {}, {}, function(req) {
+          ApiHelpers.callAPI('GET', api_url, {}, {}, function (req) {
             if (req.status == 200) {
 
               var resp = JSON.parse(req.response);
               var clinic = resp.clinic;
 
               var clinic_obj = {};
-              clinic.forEach(function(current, ID) {
+              clinic.forEach(function (current, ID) {
                 clinic_obj[current[0]] = current[1];
               });
 
@@ -1277,7 +1328,7 @@ const AsyncActionsBehavior = {
           });
         };
       } else {
-        return function(dispatch) {};
+        return function (dispatch) {};
       };
     },
 
@@ -1286,7 +1337,7 @@ const AsyncActionsBehavior = {
     // System - Logs
     // ----------------------------------
 
-    getLogs: function(filter) {
+    getLogs: function (filter) {
 
       filter = filter || {};
 
@@ -1296,10 +1347,10 @@ const AsyncActionsBehavior = {
 
       if (ApiHelpers.shouldCallNow(api_url)) {
 
-        return function(dispatch) {
+        return function (dispatch) {
 
           // Do async task
-          ApiHelpers.callAPI('GET', api_url, filter, {}, function(req) {
+          ApiHelpers.callAPI('GET', api_url, filter, {}, function (req) {
             if (req.status == 200) {
 
               var resp = JSON.parse(req.response);
@@ -1328,7 +1379,7 @@ const AsyncActionsBehavior = {
           });
         };
       } else {
-        return function(dispatch) {};
+        return function (dispatch) {};
       };
     },
 
@@ -1337,8 +1388,8 @@ const AsyncActionsBehavior = {
     // Generic
     // ----------------------------------
 
-    setObject: function(statePath, myObject) {
-      return function(dispatch) {
+    setObject: function (statePath, myObject) {
+      return function (dispatch) {
 
         myObject = myObject === undefined ? {} : myObject;
         statePath = statePath === undefined ? 'undefined' : statePath;
@@ -1352,16 +1403,16 @@ const AsyncActionsBehavior = {
       }
     },
 
-    getGenericCalls: function(api_url, state_path, inner_path) {
+    getGenericCalls: function (api_url, state_path, inner_path) {
 
       inner_path = inner_path || null;
 
       if (ApiHelpers.shouldCallNow(api_url + ' ' + state_path)) {
 
-        return function(dispatch) {
+        return function (dispatch) {
 
           // Do async task
-          ApiHelpers.callAPI('GET', api_url, {}, {}, function(req) {
+          ApiHelpers.callAPI('GET', api_url, {}, {}, function (req) {
             if (req.status == 200) {
 
               var resp = JSON.parse(req.response);
@@ -1393,7 +1444,7 @@ const AsyncActionsBehavior = {
           });
         };
       } else {
-        return function(dispatch) {};
+        return function (dispatch) {};
       };
     },
 
@@ -1402,8 +1453,8 @@ const AsyncActionsBehavior = {
     // App
     // ----------------------------------
 
-    saveDeviceSize: function(current_size_obj) {
-      return function(dispatch) {
+    saveDeviceSize: function (current_size_obj) {
+      return function (dispatch) {
 
 
         var response = {
@@ -1425,8 +1476,8 @@ const AsyncActionsBehavior = {
       }
     },
 
-    setCurrentSidebar: function(current_sidebar) {
-      return function(dispatch) {
+    setCurrentSidebar: function (current_sidebar) {
+      return function (dispatch) {
 
         dispatch({
           type: 'SET_CURRENT_SIDEBAR_COMPLETE',
@@ -1436,17 +1487,17 @@ const AsyncActionsBehavior = {
       }
     },
 
-    getAppVersion: function() {
+    getAppVersion: function () {
 
       var api_url = '/version';
       var state_path = 'app.version';
 
       if (ApiHelpers.shouldCallNow(api_url)) {
 
-        return function(dispatch) {
+        return function (dispatch) {
 
           // Do async task
-          ApiHelpers.callAPI('GET', api_url, {}, {}, function(req) {
+          ApiHelpers.callAPI('GET', api_url, {}, {}, function (req) {
             if (req.status == 200) {
 
               var resp = JSON.parse(req.response);
@@ -1479,7 +1530,7 @@ const AsyncActionsBehavior = {
           });
         };
       } else {
-        return function(dispatch) {};
+        return function (dispatch) {};
       };
     },
 
@@ -1488,16 +1539,16 @@ const AsyncActionsBehavior = {
     // Access - Forms
     // ----------------------------------
 
-    requestAccess: function(form_identifier, body) {
+    requestAccess: function (form_identifier, body) {
       var api_url = '/access_forms/' + form_identifier;
       var pid = body.patient_id || 0;
 
       if (ApiHelpers.shouldCallNow(api_url)) {
 
-        return function(dispatch) {
+        return function (dispatch) {
 
           // Do async task
-          ApiHelpers.callAPI('POST', api_url, body, {}, function(req) {
+          ApiHelpers.callAPI('POST', api_url, body, {}, function (req) {
             if (req.status == 201) {
 
               var resp = JSON.parse(req.response);
@@ -1525,7 +1576,7 @@ const AsyncActionsBehavior = {
           });
         };
       } else {
-        return function(dispatch) {};
+        return function (dispatch) {};
       };
     },
 
@@ -1533,8 +1584,8 @@ const AsyncActionsBehavior = {
     // Signin
     // ----------------------------------
 
-    trustComputer: function(trust_computer) {
-      return function(dispatch) {
+    trustComputer: function (trust_computer) {
+      return function (dispatch) {
 
         dispatch({
           type: 'SET_TRUST_COMPUTER',
@@ -1544,8 +1595,8 @@ const AsyncActionsBehavior = {
       }
     },
 
-    clearSignin: function() {
-      return function(dispatch) {
+    clearSignin: function () {
+      return function (dispatch) {
 
         var clear = {
           "data": {
