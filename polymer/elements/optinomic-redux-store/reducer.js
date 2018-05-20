@@ -74,6 +74,7 @@ const reducer = (state, action) => {
 
         case 'GET_SURVEY_RESPONSES_COMPLETE':
             var sr = Object.assign({}, state.survey_responses);
+            sr.data = sr.data || {};
             var app_id = action.data.app_id;
             sr.data[app_id] = action.data;
 

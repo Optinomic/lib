@@ -16,7 +16,13 @@ Here's what I was doing to automatically upgrade all modules. First, I had all m
 Then, from `apps`, I was running a command like this one:
 
 ```batch
-    for name in $(cat apps-with-lib); do cd $name; git submodule update --remote; git submodule foreach git pull origin master; git commit -m "Upgrade submodules/lib"; git push origin master; cd -; done
+    for name in $(cat apps-with-lib); do cd $name; git submodule update --remote; git submodule foreach git pull origin master; git commit -am "Upgrade submodules/lib"; git push origin master; cd -; done
+```
+
+### Clone all Repos
+
+```batch
+    for name in $(cat apps-with-lib); do echo $name; git clone "https://github.com/Optinomic/"$name; cd $name; git submodule update --init; cd -; done
 ```
 
 ### Submodules

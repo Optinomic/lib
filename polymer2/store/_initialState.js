@@ -12,6 +12,9 @@ const initialState = {
     "isLoggedIn": false
   },
   "apps": {},
+  "survey_responses": {
+    "data": {}
+  },
   "device": {
     "sizes": {
       "small": null,
