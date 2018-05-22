@@ -890,10 +890,10 @@ angular.module('optinomicDataModule')
             aApps.then(function(data) {
                 var myApp = {};
 
-                myApp.all_user_modules = data.user_modules;
+                myApp.all_user_modules = data.user_modules.module;
                 myApp.all_user_modules.module_activation = data.user_modules.module_activation;
 
-                myApp.all_patient_modules = data.patient_modules;
+                myApp.all_patient_modules = data.patient_modules.module;
                 myApp.all_patient_modules.module_activation = data.patient_modules.module_activation;
 
                 if (parseInt(helpers.getPatientID()) === 0) {
