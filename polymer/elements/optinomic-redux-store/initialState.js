@@ -28,9 +28,7 @@ const initialState = {
             "found": false
         }
     },
-    "survey_responses": {
-        "data": {}
-    },
+    "survey_responses": {},
     "komed": {
         "data": null,
     },

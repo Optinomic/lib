@@ -140,7 +140,7 @@ angular.module('optinomicDataModule')
 
 
         dataService.getAllApps = function() {
-            return apiService.get("/modules", {});
+            return apiService.get("/module_activations", {});
         };
 
         dataService.getPatient = function(PID) {
@@ -891,7 +891,10 @@ angular.module('optinomicDataModule')
                 var myApp = {};
 
                 myApp.all_user_modules = data.user_modules;
+                myApp.all_user_modules.module_activation = data.user_modules.module_activation;
+
                 myApp.all_patient_modules = data.patient_modules;
+                myApp.all_patient_modules.module_activation = data.patient_modules.module_activation;
 
                 if (parseInt(helpers.getPatientID()) === 0) {
                     myApp.all = data.user_modules;
