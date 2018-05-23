@@ -4,7 +4,7 @@
  * Service for getting Data from API
  */
 angular.module('optinomicDataModule')
-    .service('dataService', function($q, $filter, $window, apiService) {
+    .service('dataService', function ($q, $filter, $window, apiService) {
 
 
         var dataService = {};
@@ -13,15 +13,15 @@ angular.module('optinomicDataModule')
         // API - Functions
         // -------------------------------------------------------------------------
 
-        dataService.getUser = function(userID) {
+        dataService.getUser = function (userID) {
             return apiService.get("/users/" + userID, {});
         };
 
-        dataService.getUsers = function() {
+        dataService.getUsers = function () {
             return apiService.get("/users", {});
         };
 
-        dataService.getSurveyResponses = function(stay_id, app_identifier) {
+        dataService.getSurveyResponses = function (stay_id, app_identifier) {
             stay_id = stay_id === NaN ? 0 : stay_id;
             app_identifier = app_identifier === undefined ? helpers.getAppID() : app_identifier;
 
@@ -40,21 +40,21 @@ angular.module('optinomicDataModule')
             return apiService.get(api_call, {});
         };
 
-        dataService.getAppCalculations = function(calculation_identifier, app_identifier) {
+        dataService.getAppCalculations = function (calculation_identifier, app_identifier) {
             app_identifier = app_identifier === undefined ? helpers.getAppID() : app_identifier;
             return apiService.get("/patients/" + helpers.getPatientID() + "/calculations/" + app_identifier + "/" + calculation_identifier, {});
         };
 
-        dataService.getAppCalculationsUser = function(app_identifier, my_calculation_identifier) {
+        dataService.getAppCalculationsUser = function (app_identifier, my_calculation_identifier) {
             app_identifier = app_identifier === undefined ? helpers.getAppID() : app_identifier;
             return apiService.get("/calculations/" + app_identifier + "/" + my_calculation_identifier, {});
         };
 
-        dataService.getConfig = function() {
+        dataService.getConfig = function () {
             return apiService.get("/extra_config", {});
         };
 
-        dataService.runSQL = function(my_query, my_delimiter, my_including_headers, my_format, my_direct) {
+        dataService.runSQL = function (my_query, my_delimiter, my_including_headers, my_format, my_direct) {
             //my_query = my_query === undefined ? 'select * from information_schema.tables' : my_query;
             my_delimiter = my_delimiter === undefined ? ';' : my_delimiter;
             my_including_headers = my_including_headers === undefined ? 'True' : my_including_headers;
@@ -84,7 +84,7 @@ angular.module('optinomicDataModule')
         };
 
 
-        dataService.runDataSource = function(my_query, my_source, my_delimiter, my_including_headers, my_format, my_direct) {
+        dataService.runDataSource = function (my_query, my_source, my_delimiter, my_including_headers, my_format, my_direct) {
             //my_query = my_query === undefined ? 'select * from information_schema.tables' : my_query;
             my_delimiter = my_delimiter === undefined ? ';' : my_delimiter;
             my_including_headers = my_including_headers === undefined ? 'True' : my_including_headers;
@@ -116,7 +116,7 @@ angular.module('optinomicDataModule')
         };
 
 
-        dataService.runView = function(module_identifier, view_name, body_params) {
+        dataService.runView = function (module_identifier, view_name, body_params) {
             // https://doc.optinomic.org/V2/Developers/api.html#post-modulesmoduleidentifierrunviewviewname
             module_identifier = module_identifier === undefined ? '' : module_identifier;
             view_name = view_name === undefined ? '' : view_name;
@@ -128,7 +128,7 @@ angular.module('optinomicDataModule')
             return apiService.post(api_str, body_params);
         };
 
-        dataService.getAppViews = function(module_identifier) {
+        dataService.getAppViews = function (module_identifier) {
             // https://doc.optinomic.org/V2/Developers/api.html#get-modulesmoduleidentifiersqlviews
 
             module_identifier = module_identifier === undefined ? '' : module_identifier;
@@ -139,46 +139,46 @@ angular.module('optinomicDataModule')
         };
 
 
-        dataService.getAllApps = function() {
+        dataService.getAllApps = function () {
             return apiService.get("/module_activations", {});
         };
 
-        dataService.getPatient = function(PID) {
+        dataService.getPatient = function (PID) {
             PID = PID === undefined ? helpers.getPatientID() : PID;
             return apiService.get("/patients/" + PID, {});
         };
 
-        dataService.getPatientStays = function(PID) {
+        dataService.getPatientStays = function (PID) {
             PID = PID === undefined ? helpers.getPatientID() : PID;
             return apiService.get("/patients/" + PID + "/stays", {});
         };
 
 
-        dataService.getCurrentPatient = function() {
+        dataService.getCurrentPatient = function () {
             return apiService.get("/patients/" + helpers.getPatientID() + "/full", {});
         };
 
-        dataService.getPatientEvents = function(PID) {
+        dataService.getPatientEvents = function (PID) {
             PID = PID === undefined ? helpers.getPatientID() : PID;
             return apiService.get("/patients/" + PID + "/events", {});
         };
 
-        dataService.getPatientGroups = function() {
+        dataService.getPatientGroups = function () {
             return apiService.get("/patient_groups", {});
         };
 
-        dataService.getPatientsFromPatientGroup = function(currentGroup) {
+        dataService.getPatientsFromPatientGroup = function (currentGroup) {
             var apiStr = "/patient_groups/" + currentGroup + "/patients";
             return apiService.get(apiStr, {});
         };
 
-        dataService.getPatientAnnotations = function() {
+        dataService.getPatientAnnotations = function () {
             var patient_id = dataService.getPatientID();
             var apiStr = '/patients/' + patient_id + '/annotations';
             return apiService.get(apiStr, {});
         };
 
-        dataService.putPatientAnnotations = function(json_value) {
+        dataService.putPatientAnnotations = function (json_value) {
             var patient_id = dataService.getPatientID();
             var apiStr = '/patients/' + patient_id + '/annotations';
             var body = {
@@ -187,13 +187,13 @@ angular.module('optinomicDataModule')
             return apiService.put(apiStr, body);
         };
 
-        dataService.getUserAnnotations = function() {
+        dataService.getUserAnnotations = function () {
             var user_id = dataService.getUserID();
             var apiStr = '/users/' + user_id + '/annotations';
             return apiService.get(apiStr, {});
         };
 
-        dataService.putUserAnnotations = function(json_value) {
+        dataService.putUserAnnotations = function (json_value) {
 
             var user_id = dataService.getUserID();
             //console.log('(!!) API - CALL: putUserAnnotations', user_id, json_value);
@@ -205,7 +205,7 @@ angular.module('optinomicDataModule')
         };
 
 
-        dataService.getPatientModuleAnnotations = function() {
+        dataService.getPatientModuleAnnotations = function () {
             // GET annotations on a module and a patient in particular
 
             var patient_id = dataService.getPatientID();
@@ -215,7 +215,7 @@ angular.module('optinomicDataModule')
             return apiService.get(apiStr, {});
         };
 
-        dataService.getAllPatientsModuleAnnotations = function() {
+        dataService.getAllPatientsModuleAnnotations = function () {
             // to get the annotations of the above endpoint for ALL patients.
 
             var module_identifier = dataService.getAppID();
@@ -225,7 +225,7 @@ angular.module('optinomicDataModule')
         };
 
 
-        dataService.putPatientModuleAnnotations = function(json_value, patient_id, module_identifier) {
+        dataService.putPatientModuleAnnotations = function (json_value, patient_id, module_identifier) {
             // PUT annotations on a module and a patient in particular
 
             patient_id = patient_id === undefined ? dataService.getPatientID() : patient_id;
@@ -241,7 +241,7 @@ angular.module('optinomicDataModule')
         };
 
 
-        dataService.getModuleAnnotations = function(module_identifier) {
+        dataService.getModuleAnnotations = function (module_identifier) {
             // GET annotations on modules, nothing to do with patients here
 
             module_identifier = module_identifier === undefined ? dataService.getAppID() : module_identifier;
@@ -250,7 +250,7 @@ angular.module('optinomicDataModule')
             return apiService.get(apiStr, {});
         };
 
-        dataService.putModuleAnnotations = function(json_value, module_identifier) {
+        dataService.putModuleAnnotations = function (json_value, module_identifier) {
             // PUT annotations on modules, nothing to do with patients here
 
             module_identifier = module_identifier === undefined ? dataService.getAppID() : module_identifier;
@@ -262,7 +262,7 @@ angular.module('optinomicDataModule')
             return apiService.put(apiStr, body);
         };
 
-        dataService.getPatientList = function(myParams) {
+        dataService.getPatientList = function (myParams) {
 
             myParams = myParams === undefined ? {} : myParams;
 
@@ -286,7 +286,7 @@ angular.module('optinomicDataModule')
             return apiService.get(apiStr, body);
         };
 
-        dataService.getStays = function(mypid) {
+        dataService.getStays = function (mypid) {
             return apiService.get("/patients/" + mypid + "/stays", {});
         };
 
@@ -296,42 +296,42 @@ angular.module('optinomicDataModule')
         // Helper - Functions
         // -------------------------------------------------------------------------
 
-        dataService.getPatientID = function() {
+        dataService.getPatientID = function () {
             return parseInt(helpers.getPatientID());
         };
 
-        dataService.getToken = function() {
+        dataService.getToken = function () {
             return helpers.getToken();
         };
 
-        dataService.getAppName = function() {
+        dataService.getAppName = function () {
             return helpers.getAppName();
         };
 
-        dataService.getAppID = function() {
+        dataService.getAppID = function () {
             return helpers.getAppID();
         };
 
-        dataService.getApiURL = function() {
+        dataService.getApiURL = function () {
             return helpers.getApiURL();
         };
 
-        dataService.getUserID = function() {
+        dataService.getUserID = function () {
             return parseInt(helpers.getUserID());
         };
 
-        dataService.getStayID = function() {
+        dataService.getStayID = function () {
             return parseInt(helpers.getStayID());
         };
 
-        dataService.getData = function(api_call) {
+        dataService.getData = function (api_call) {
             var deferred = $q.defer();
 
-            api_call.success(function(data) {
+            api_call.success(function (data) {
                 deferred.resolve(data);
                 //console.log('===> Success - getData   ', data, deferred);
             });
-            api_call.error(function(error) {
+            api_call.error(function (error) {
                 deferred.reject(error);
                 console.log('===> APP-ERROR! getData @ ', error, api_call);
 
@@ -341,7 +341,7 @@ angular.module('optinomicDataModule')
             return deferred.promise;
         };
 
-        dataService.getClinicData = function(clinic_key) {
+        dataService.getClinicData = function (clinic_key) {
 
             // This function is a 'clone' from 
             // /client/app/modules/optinomic-module/service/clinics-service.js
@@ -447,7 +447,7 @@ angular.module('optinomicDataModule')
             return data;
         };
 
-        dataService.createPatientExtras = function(patient) {
+        dataService.createPatientExtras = function (patient) {
             //console.log('createPatientExtras ', patient);
             patient.age = $filter('dateToAge')(patient.birthdate);
             patient.birthday = $filter('date')(patient.birthdate);
@@ -508,7 +508,7 @@ angular.module('optinomicDataModule')
             return patient;
         };
 
-        dataService.createStayExtras = function(current_pid, current_stay) {
+        dataService.createStayExtras = function (current_pid, current_stay) {
 
             current_stay.url = '#/patient/' + current_pid + '/stay/' + current_stay.id;
             current_stay.url_edit = current_stay.url + '/edit';
@@ -559,25 +559,25 @@ angular.module('optinomicDataModule')
             current_stay.team.lead_doctor = null;
 
             if (current_stay.data.lead_therapist_id_overwrite) {
-                dataService.getUser(current_stay.data.lead_therapist_id_overwrite).success(function(data) {
+                dataService.getUser(current_stay.data.lead_therapist_id_overwrite).success(function (data) {
                     current_stay.team.lead_therapist = data.user;
                 });
             } else {
                 if (current_stay.data.lead_therapist_id) {
-                    dataService.getUser(current_stay.data.lead_therapist_id).success(function(data) {
+                    dataService.getUser(current_stay.data.lead_therapist_id).success(function (data) {
                         current_stay.team.lead_therapist = data.user;
                     });
                 };
             };
 
             if (current_stay.data.deputy_lead_therapist_id) {
-                dataService.getUser(current_stay.data.deputy_lead_therapist_id).success(function(data) {
+                dataService.getUser(current_stay.data.deputy_lead_therapist_id).success(function (data) {
                     current_stay.team.lead_therapist_deputy = data.user;
                 });
             };
 
             if (current_stay.data.cis_lead_doctor) {
-                dataService.getUser(current_stay.data.cis_lead_doctor).success(function(data) {
+                dataService.getUser(current_stay.data.cis_lead_doctor).success(function (data) {
                     current_stay.team.lead_doctor = data.user;
                 });
             };
@@ -592,19 +592,19 @@ angular.module('optinomicDataModule')
         // -------------------------------------------------------------------------
 
 
-        dataService.groupBy = function(array, f) {
+        dataService.groupBy = function (array, f) {
             var groups = {};
-            array.forEach(function(o) {
+            array.forEach(function (o) {
                 var group = JSON.stringify(f(o));
                 groups[group] = groups[group] || [];
                 groups[group].push(o);
             });
-            return Object.keys(groups).map(function(group) {
+            return Object.keys(groups).map(function (group) {
                 return groups[group];
             })
         }
 
-        dataService.isEmpty = function(obj) {
+        dataService.isEmpty = function (obj) {
             for (var prop in obj) {
                 if (obj.hasOwnProperty(prop))
                     return false;
@@ -612,12 +612,12 @@ angular.module('optinomicDataModule')
             return true;
         };
 
-        dataService.sortByKey = function(array, key, order) {
+        dataService.sortByKey = function (array, key, order) {
 
             order = order === undefined ? 'asc' : order;
             console.log('sortByKey: ', array, key, order);
 
-            return array.sort(function(a, b) {
+            return array.sort(function (a, b) {
                 var x = a[key];
                 var y = b[key];
 
@@ -630,7 +630,7 @@ angular.module('optinomicDataModule')
         };
 
 
-        dataService.sortOn = function(arr, prop, reverse, numeric) {
+        dataService.sortOn = function (arr, prop, reverse, numeric) {
 
             // Ensure there's a property
             if (!prop || !arr) {
@@ -638,10 +638,10 @@ angular.module('optinomicDataModule')
             }
 
             // Set up sort function
-            var sort_by = function(field, rev, primer) {
+            var sort_by = function (field, rev, primer) {
 
                 // Return the required a,b function
-                return function(a, b) {
+                return function (a, b) {
 
                     // Reset a, b to the field
                     a = primer(a[field]), b = primer(b[field]);
@@ -663,7 +663,7 @@ angular.module('optinomicDataModule')
             if (numeric) {
 
                 // Do sort "in place" with sort_by function
-                arr.sort(sort_by(prop, reverse, function(a) {
+                arr.sort(sort_by(prop, reverse, function (a) {
 
                     // - Force value to a string.
                     // - Replace any non numeric characters.
@@ -674,7 +674,7 @@ angular.module('optinomicDataModule')
             } else {
 
                 // Do sort "in place" with sort_by function
-                arr.sort(sort_by(prop, reverse, function(a) {
+                arr.sort(sort_by(prop, reverse, function (a) {
 
                     // - Force value to string.
                     return String(a).toUpperCase();
@@ -683,7 +683,7 @@ angular.module('optinomicDataModule')
             }
         }
 
-        dataService.checkSuccess = function(max, count) {
+        dataService.checkSuccess = function (max, count) {
 
             var allPromised = false;
             if (max === count) {
@@ -693,7 +693,7 @@ angular.module('optinomicDataModule')
             return allPromised;
         };
 
-        dataService.findIndex = function(array, attr, value) {
+        dataService.findIndex = function (array, attr, value) {
             for (var i = 0; i < array.length; i += 1) {
                 if (array[i][attr] === value) {
                     return i;
@@ -704,7 +704,7 @@ angular.module('optinomicDataModule')
         // --------------------------------------------------
         // Create uniqueID
         // --------------------------------------------------
-        dataService.uniqueid = function() {
+        dataService.uniqueid = function () {
             // always start with a letter (for DOM friendlyness)
             var idstr = String.fromCharCode(Math.floor((Math.random() * 25) + 65));
             do {
@@ -723,7 +723,7 @@ angular.module('optinomicDataModule')
         // --------------------------------------------------
         // Get Current View
         // --------------------------------------------------
-        dataService.getCurrentView = function() {
+        dataService.getCurrentView = function () {
             var return_obj = {};
 
             return_obj.url = $window.location.pathname;
@@ -737,7 +737,7 @@ angular.module('optinomicDataModule')
         // Main - Functions
         // -------------------------------------------------------------------------
 
-        dataService.getMainAppData = function(app_identifier, full) {
+        dataService.getMainAppData = function (app_identifier, full) {
 
             app_identifier = app_identifier === undefined ? dataService.getAppID() : app_identifier;
             full = full === undefined ? true : full;
@@ -793,7 +793,7 @@ angular.module('optinomicDataModule')
             api = dataService.getSurveyResponses(dataService.getStayID(), app_identifier);
             var aSurveyResponses = dataService.getData(api);
 
-            aSurveyResponses.then(function(data) {
+            aSurveyResponses.then(function (data) {
 
                 //console.log('(!) - getSurveyResponses: ', data);
 
@@ -801,8 +801,8 @@ angular.module('optinomicDataModule')
                 var responses = data.survey_responses;
 
                 // Sort 
-                var sortByFilled = function(array) {
-                    return array.sort(function(a, b) {
+                var sortByFilled = function (array) {
+                    return array.sort(function (a, b) {
                         var x = a.entity.data.filled;
                         var y = b.entity.data.filled;
                         return ((x < y) ? -1 : ((x > y) ? 1 : 0));
@@ -814,13 +814,13 @@ angular.module('optinomicDataModule')
 
 
                 // Group Responses by survey_name
-                return_data.survey_responses_group = dataService.groupBy(responses, function(item) {
+                return_data.survey_responses_group = dataService.groupBy(responses, function (item) {
                     return [item.event.survey_name];
                 });
 
                 // Store Group Definitions with survey_name
                 return_data.survey_responses_group_definitions = [];
-                return_data.survey_responses_group.forEach(function(current_group, myindex) {
+                return_data.survey_responses_group.forEach(function (current_group, myindex) {
 
                     var myObject = {
                         'id': myindex,
@@ -839,7 +839,7 @@ angular.module('optinomicDataModule')
                 if (dataService.checkSuccess(actions, actions_count)) {
                     deferred.resolve(return_data);
                 };
-            }, function(error) {
+            }, function (error) {
                 // Error
                 deferred.reject(return_data);
                 console.log('-- Error:', error);
@@ -854,7 +854,7 @@ angular.module('optinomicDataModule')
                 api = dataService.getConfig();
                 var aConfig = dataService.getData(api);
 
-                aConfig.then(function(data) {
+                aConfig.then(function (data) {
                     var configData = data.extra_config;
                     return_data.config = configData;
 
@@ -869,7 +869,7 @@ angular.module('optinomicDataModule')
                     if (dataService.checkSuccess(actions, actions_count)) {
                         deferred.resolve(return_data);
                     };
-                }, function(error) {
+                }, function (error) {
                     // Error
                     deferred.reject(return_data);
                     console.log('-- Error:', error);
@@ -887,14 +887,11 @@ angular.module('optinomicDataModule')
             api = dataService.getAllApps();
             var aApps = dataService.getData(api);
 
-            aApps.then(function(data) {
+            aApps.then(function (data) {
                 var myApp = {};
 
-                myApp.all_user_modules = data.user_modules.module;
-                myApp.all_user_modules.module_activation = data.user_modules.module_activation;
-
-                myApp.all_patient_modules = data.patient_modules.module;
-                myApp.all_patient_modules.module_activation = data.patient_modules.module_activation;
+                myApp.all_user_modules = data.user_modules;
+                myApp.all_patient_modules = data.patient_modules;
 
                 if (parseInt(helpers.getPatientID()) === 0) {
                     myApp.all = data.user_modules;
@@ -904,9 +901,11 @@ angular.module('optinomicDataModule')
 
 
                 // Save current app details
-                myApp.all.forEach(function(current_app, myindex) {
+                myApp.all.forEach(function (current_app_f, myindex) {
+
+                    var current_app = current_app_f.module;
                     if (current_app.identifier === app_identifier) {
-                        myApp.current = current_app;
+                        myApp.current = current_app.module;
 
 
                         return_data.calculations = [];
@@ -916,7 +915,7 @@ angular.module('optinomicDataModule')
                         actions = actions + current_app.calculations.length;
 
 
-                        current_app.calculations.forEach(function(calculatons, myindex) {
+                        current_app.calculations.forEach(function (calculatons, myindex) {
 
                             if (parseInt(helpers.getPatientID()) === 0) {
                                 // console.log('User App - Calculation: ', current_app.identifier, calculatons)
@@ -927,7 +926,7 @@ angular.module('optinomicDataModule')
                             };
                             var aCalculation = dataService.getData(api);
 
-                            aCalculation.then(function(data) {
+                            aCalculation.then(function (data) {
 
                                 var date = new Date();
                                 var objectToPush = {
@@ -952,11 +951,11 @@ angular.module('optinomicDataModule')
                                     if (all_results_valid) {
 
                                         if ('survey_responses' in return_data !== undefined) {
-                                            return_data.survey_responses.forEach(function(response, myindex) {
+                                            return_data.survey_responses.forEach(function (response, myindex) {
                                                 // console.log('(+) LOOP - survey_responses: ', response, all_results);
                                                 var inner_calculations = [];
 
-                                                all_results.forEach(function(current_result, myindex) {
+                                                all_results.forEach(function (current_result, myindex) {
 
                                                     var variant_new = false;
                                                     if ("info" in current_result) {
@@ -1013,7 +1012,7 @@ angular.module('optinomicDataModule')
                                 if (dataService.checkSuccess(actions, actions_count)) {
                                     deferred.resolve(return_data);
                                 };
-                            }, function(error) {
+                            }, function (error) {
                                 // Error
                                 deferred.reject(return_data);
                                 console.log('-- Error:', error);
@@ -1031,11 +1030,12 @@ angular.module('optinomicDataModule')
                 if (dataService.checkSuccess(actions, actions_count)) {
                     deferred.resolve(return_data);
                 };
-            }, function(error) {
+            }, function (error) {
                 // Error
                 deferred.reject(return_data);
                 console.log('-- Error:', error);
             });
+
 
             // ------------------------------------------------
             // Action 4:  Patient - Details
@@ -1048,7 +1048,7 @@ angular.module('optinomicDataModule')
                     api = dataService.getCurrentPatient();
                     var aPatient = dataService.getData(api);
 
-                    aPatient.then(function(data) {
+                    aPatient.then(function (data) {
                         return_data.patient = data;
                         //console.log('createPatientExtras', data);
                         return_data.patient.data = dataService.createPatientExtras(data.patient.data);
@@ -1058,7 +1058,7 @@ angular.module('optinomicDataModule')
                         if (dataService.checkSuccess(actions, actions_count)) {
                             deferred.resolve(return_data);
                         };
-                    }, function(error) {
+                    }, function (error) {
                         // Error
                         deferred.reject(return_data);
                         console.log('-- Error:', error);
@@ -1079,11 +1079,11 @@ angular.module('optinomicDataModule')
                     api = dataService.getPatientEvents(helpers.getPatientID());
                     var aEvents = dataService.getData(api);
 
-                    aEvents.then(function(data) {
+                    aEvents.then(function (data) {
 
                         return_data.events = data.events;
 
-                        return_data.events.forEach(function(current_event, myindex) {
+                        return_data.events.forEach(function (current_event, myindex) {
 
                             var date = current_event.data.created_at;
 
@@ -1101,7 +1101,7 @@ angular.module('optinomicDataModule')
                         if (dataService.checkSuccess(actions, actions_count)) {
                             deferred.resolve(return_data);
                         };
-                    }, function(error) {
+                    }, function (error) {
                         // Error
                         deferred.reject(return_data);
                         console.log('-- Error:', error);
@@ -1120,14 +1120,14 @@ angular.module('optinomicDataModule')
                 api = dataService.getUsers();
                 var aUsers = dataService.getData(api);
 
-                aUsers.then(function(data) {
+                aUsers.then(function (data) {
 
                     // All Users
                     var users = data.users;
                     return_data.users = {};
                     return_data.users.all = users;
 
-                    users.forEach(function(user, myindex) {
+                    users.forEach(function (user, myindex) {
                         user.data.uid = user.id;
                         user.data = dataService.createUserExtras(user.data);
 
@@ -1142,7 +1142,7 @@ angular.module('optinomicDataModule')
                     if (dataService.checkSuccess(actions, actions_count)) {
                         deferred.resolve(return_data);
                     };
-                }, function(error) {
+                }, function (error) {
                     // Error
                     deferred.reject(return_data);
                     console.log('-- Error:', error);
@@ -1158,7 +1158,7 @@ angular.module('optinomicDataModule')
             if (full) {
                 api = dataService.getPatientGroups();
                 var aPatientGroups = dataService.getData(api);
-                aPatientGroups.then(function(dataPatientGroups) {
+                aPatientGroups.then(function (dataPatientGroups) {
                     //console.log('dataPatientGroups dataPatientGroups', dataPatientGroups);
 
                     var patient_groups = dataPatientGroups.patient_groups;
@@ -1167,15 +1167,15 @@ angular.module('optinomicDataModule')
 
                     // GET Patients from the Groups
                     actions = actions + patient_groups.length;
-                    patient_groups.forEach(function(current_pg, myindex) {
+                    patient_groups.forEach(function (current_pg, myindex) {
 
                         api = dataService.getPatientsFromPatientGroup(current_pg.id);
                         var aPatients = dataService.getData(api);
-                        aPatients.then(function(dataPatients) {
+                        aPatients.then(function (dataPatients) {
                             var patients = dataPatients.patients;
                             current_pg.patients = patients;
 
-                            patients.forEach(function(patient, myindex) {
+                            patients.forEach(function (patient, myindex) {
                                 patient.data.pid = patient.id;
                                 patient.data = dataService.createPatientExtras(patient.data);
                             });
@@ -1188,7 +1188,7 @@ angular.module('optinomicDataModule')
                             };
 
 
-                        }, function(error) {
+                        }, function (error) {
                             // Error
                             deferred.reject(return_data);
                             console.log('-- Error:', error);
@@ -1204,7 +1204,7 @@ angular.module('optinomicDataModule')
                     };
 
 
-                }, function(error) {
+                }, function (error) {
                     // Error
                     deferred.reject(return_data);
                     console.log('-- Error:', error);
@@ -1218,7 +1218,7 @@ angular.module('optinomicDataModule')
         };
 
 
-        dataService.getPatientsStays = function(patientListFilter) {
+        dataService.getPatientsStays = function (patientListFilter) {
 
             // Init - Params
             var patientListFilterDefault = {
@@ -1256,13 +1256,13 @@ angular.module('optinomicDataModule')
             api = dataService.getPatientList(patientListFilter);
             var aPatients = dataService.getData(api);
 
-            aPatients.then(function(data) {
+            aPatients.then(function (data) {
                 //console.log('1: Patients', data);
 
                 // All Responses
                 var patients = data.patients;
 
-                patients.forEach(function(patient, my_patient_index) {
+                patients.forEach(function (patient, my_patient_index) {
 
                     patient.data.pid = patient.id;
                     patient.data = dataService.createPatientExtras(patient.data);
@@ -1276,9 +1276,9 @@ angular.module('optinomicDataModule')
                     api = dataService.getStays(patient.id);
                     var aStays = dataService.getData(api);
 
-                    aStays.then(function(stays_data) {
+                    aStays.then(function (stays_data) {
                         var my_stays = stays_data.stays;
-                        my_stays.forEach(function(my_stay, my_stay_index) {
+                        my_stays.forEach(function (my_stay, my_stay_index) {
                             my_stay = dataService.createStayExtras(patient.id, my_stay);
                             //console.log('--: Stay', my_stay_index, my_stay);
 
@@ -1290,7 +1290,7 @@ angular.module('optinomicDataModule')
                         if (dataService.checkSuccess(actions, actions_count)) {
                             deferred.resolve(return_data);
                         };
-                    }, function(error) {
+                    }, function (error) {
                         // Error
                         deferred.reject(return_data);
                         console.log('-- Error:', error);
@@ -1303,7 +1303,7 @@ angular.module('optinomicDataModule')
                 return_data.patients = patients;
 
 
-            }, function(error) {
+            }, function (error) {
                 // Error
                 deferred.reject(return_data);
                 console.log('-- Error:', error);
@@ -1314,7 +1314,7 @@ angular.module('optinomicDataModule')
         };
 
 
-        dataService.getFulfillmentData = function(app_identifier, patientListFilter) {
+        dataService.getFulfillmentData = function (app_identifier, patientListFilter) {
 
             // Init - Params
             var patientListFilterDefault = {
@@ -1353,13 +1353,13 @@ angular.module('optinomicDataModule')
             api = dataService.getPatientList(patientListFilter);
             var aPatients = dataService.getData(api);
 
-            aPatients.then(function(data) {
+            aPatients.then(function (data) {
                 //console.log('1: Patients', data);
 
                 // All Responses
                 var patients = data.patients;
 
-                patients.forEach(function(patient, my_patient_index) {
+                patients.forEach(function (patient, my_patient_index) {
 
                     patient.data.pid = patient.id;
                     patient.data = dataService.createPatientExtras(patient.data);
@@ -1373,9 +1373,9 @@ angular.module('optinomicDataModule')
                     api = dataService.getStays(patient.id);
                     var aStays = dataService.getData(api);
 
-                    aStays.then(function(stays_data) {
+                    aStays.then(function (stays_data) {
                         var my_stays = stays_data.stays;
-                        my_stays.forEach(function(my_stay, my_stay_index) {
+                        my_stays.forEach(function (my_stay, my_stay_index) {
                             my_stay = dataService.createStayExtras(patient.id, my_stay);
                             //console.log('--: Stay', my_stay_index, my_stay);
 
@@ -1387,7 +1387,7 @@ angular.module('optinomicDataModule')
                         if (dataService.checkSuccess(actions, actions_count)) {
                             deferred.resolve(return_data);
                         };
-                    }, function(error) {
+                    }, function (error) {
                         // Error
                         deferred.reject(return_data);
                         console.log('-- Error:', error);
@@ -1401,10 +1401,10 @@ angular.module('optinomicDataModule')
                     api = dataService.getPatientEvents(patient.id);
                     var aEvents = dataService.getData(api);
 
-                    aEvents.then(function(events_data) {
+                    aEvents.then(function (events_data) {
                         var my_events = events_data.events;
                         var my_events_module = [];
-                        my_events.forEach(function(my_event, my_event_index) {
+                        my_events.forEach(function (my_event, my_event_index) {
                             //console.log('--: Event', my_event_index, my_event);
 
                             if (my_event.data.module === app_identifier) {
@@ -1422,7 +1422,7 @@ angular.module('optinomicDataModule')
                         if (dataService.checkSuccess(actions, actions_count)) {
                             deferred.resolve(return_data);
                         };
-                    }, function(error) {
+                    }, function (error) {
                         // Error
                         deferred.reject(return_data);
                         console.log('-- Error:', error);
@@ -1442,7 +1442,7 @@ angular.module('optinomicDataModule')
                 //});
 
 
-            }, function(error) {
+            }, function (error) {
                 // Error
                 deferred.reject(return_data);
                 console.log('-- Error:', error);
@@ -1469,10 +1469,10 @@ angular.module('optinomicDataModule')
             api = dataService.runSQL(app_query, sql.delimitter, sql.including_headers, sql.format, sql.direct);
             var aSQL = dataService.getData(api);
 
-            aSQL.then(function(data) {
+            aSQL.then(function (data) {
 
                 var returned_survey_responses = [];
-                data.rows.forEach(function(response, myindex) {
+                data.rows.forEach(function (response, myindex) {
                     response.event_id = parseInt(response.event_id);
                     response.patient_id = parseInt(response.patient_id);
                     response.stay_id = parseInt(response.stay_id);
@@ -1489,7 +1489,7 @@ angular.module('optinomicDataModule')
                 if (dataService.checkSuccess(actions, actions_count)) {
                     deferred.resolve(return_data);
                 };
-            }, function(error) {
+            }, function (error) {
                 // Error
                 deferred.reject(return_data);
                 console.log('-- Error:', error);
@@ -1500,7 +1500,7 @@ angular.module('optinomicDataModule')
         };
 
 
-        dataService.getResponsesExtras = function(response) {
+        dataService.getResponsesExtras = function (response) {
             var resp = response.entity.data;
 
             var date = resp.filled;
@@ -1514,7 +1514,7 @@ angular.module('optinomicDataModule')
         };
 
 
-        dataService.createUserExtras = function(user) {
+        dataService.createUserExtras = function (user) {
             user.age = $filter('dateToAge')(user.birthday);
             user.birthdate = user.birthday;
             //user.birthdate = $filter('date')(user.birthday);
@@ -1562,7 +1562,7 @@ angular.module('optinomicDataModule')
         // Patient / User - Annotations
         //------------------------------------------
 
-        dataService.getAnnotationsData = function(api_direction, node_tree) {
+        dataService.getAnnotationsData = function (api_direction, node_tree) {
             var deferred = $q.defer();
             var return_data = {};
             var app_id = dataService.getAppID();
@@ -1580,7 +1580,7 @@ angular.module('optinomicDataModule')
 
 
             var aPromise = dataService.getData(api);
-            aPromise.then(function(data) {
+            aPromise.then(function (data) {
                     var return_array = [];
 
                     return_data = data[node_tree] === undefined ? [] : data[node_tree];
@@ -1599,7 +1599,7 @@ angular.module('optinomicDataModule')
                     //console.log('(?) ---> ', stay_id, return_data);
 
                     if (return_data.length > 0) {
-                        return_data.forEach(function(item, myindex) {
+                        return_data.forEach(function (item, myindex) {
 
                             if (item.stay === stay_id) {
                                 console.log('(GET) ---> ', item, myindex);
@@ -1610,7 +1610,7 @@ angular.module('optinomicDataModule')
 
                                 if (isArray(item.data)) {
                                     if (item.data.length > 0) {
-                                        item.data.forEach(function(inner_item, myindex) {
+                                        item.data.forEach(function (inner_item, myindex) {
                                             //console.log('(Pushed) ---> ', inner_item, item, myindex);
                                             return_array.push(inner_item);
                                         });
@@ -1629,7 +1629,7 @@ angular.module('optinomicDataModule')
                     deferred.resolve(return_array);
 
                 },
-                function(error) {
+                function (error) {
                     // Error
                     deferred.reject(return_array);
                     console.log('ERROR: getAnnotationsData', error);
@@ -1638,7 +1638,7 @@ angular.module('optinomicDataModule')
             return deferred.promise;
         };
 
-        dataService.saveAnnotationsData = function(api_direction, node_tree, json_value) {
+        dataService.saveAnnotationsData = function (api_direction, node_tree, json_value) {
 
             json_value = json_value === undefined ? {} : json_value;
 
@@ -1679,7 +1679,7 @@ angular.module('optinomicDataModule')
             // Check json_value and enhance with save_stamp
             // Add and save - save_stamp if needed | array.
             if (isArray(json_value)) {
-                json_value.forEach(function(item, myindex) {
+                json_value.forEach(function (item, myindex) {
                     if ((item.save_stamp === undefined) || (item.save_stamp === NaN)) {
                         // Add / Save a 'save stamp' - used to identify stay
                         item.save_stamp = getSaveStamp();
@@ -1709,7 +1709,7 @@ angular.module('optinomicDataModule')
             };
 
             var aPromise = dataService.getData(api_read);
-            aPromise.then(function(current_data) {
+            aPromise.then(function (current_data) {
 
                 full_data = current_data;
 
@@ -1729,7 +1729,7 @@ angular.module('optinomicDataModule')
 
                 // Do not overwrite if only a specific stay - data is set
                 var data_saved = false;
-                full_data[node_tree].forEach(function(item, myindex) {
+                full_data[node_tree].forEach(function (item, myindex) {
                     if (item.stay === stay_id) {
                         item.data = data_model.data;
                         data_saved = true;
@@ -1758,12 +1758,12 @@ angular.module('optinomicDataModule')
 
 
                 var aPromise = dataService.getData(api_write);
-                aPromise.then(function(data) {
+                aPromise.then(function (data) {
 
                     console.log('(✓) saveAnnotationsData =', full_data);
                     deferred.resolve(return_data);
 
-                }, function(error) {
+                }, function (error) {
                     // Error
                     deferred.reject(error);
                     console.log('ERROR: saveAnnotationsData', error);
@@ -1774,7 +1774,7 @@ angular.module('optinomicDataModule')
             return deferred.promise;
         };
 
-        dataService.getAppJSON = function(grid_node) {
+        dataService.getAppJSON = function (grid_node) {
 
             var deferred = $q.defer();
             var return_data = {};
@@ -1782,7 +1782,7 @@ angular.module('optinomicDataModule')
             var api = dataService.getModuleAnnotations();
             var aGrid = dataService.getData(api);
 
-            aGrid.then(function(data) {
+            aGrid.then(function (data) {
                 //console.log('(!) getGrid - START: ', data);
 
 
@@ -1816,7 +1816,7 @@ angular.module('optinomicDataModule')
 
                 deferred.resolve(return_data);
 
-            }, function(error) {
+            }, function (error) {
                 // Error
                 deferred.reject(return_data);
                 console.log('(ERROR) getAppJSON', error);
@@ -1825,7 +1825,7 @@ angular.module('optinomicDataModule')
             return deferred.promise;
         };
 
-        dataService.putAppJSON = function(node_tree, json_value) {
+        dataService.putAppJSON = function (node_tree, json_value) {
 
             console.log('(?) putJSON', node_tree, json_value);
 
@@ -1836,7 +1836,7 @@ angular.module('optinomicDataModule')
             var api = dataService.getModuleAnnotations();
             var allAnnotations = dataService.getData(api);
 
-            allAnnotations.then(function(data) {
+            allAnnotations.then(function (data) {
 
                 var full_data = angular.copy(data);
                 //console.log('(?) 1', full_data);
@@ -1847,13 +1847,13 @@ angular.module('optinomicDataModule')
                 var my_full_json = JSON.stringify(full_data);
                 var api = dataService.putModuleAnnotations(my_full_json);
 
-                api.success(function(data) {
+                api.success(function (data) {
                     console.log('(+) Saved: ', full_data);
                     //annotationsService.showToast('Erfolgreich gespeichert  |  Successfully saved!');
                     deferred.resolve(full_data[node_tree]);
                 });
 
-                api.error(function(error) {
+                api.error(function (error) {
                     alert("(ERROR) putAppJSON" + error);
                 });
 
@@ -1862,14 +1862,16 @@ angular.module('optinomicDataModule')
             return deferred.promise;
         };
 
-        dataService.saveData = (function() {
+        dataService.saveData = (function () {
             var a = document.createElement("a");
             document.body.appendChild(a);
             a.setAttribute('style', "display: none");
             // a.style = "display: none";
-            return function(data, fileName) {
+            return function (data, fileName) {
                 var json = JSON.stringify(data),
-                    blob = new Blob([json], { type: "octet/stream" }),
+                    blob = new Blob([json], {
+                        type: "octet/stream"
+                    }),
                     url = window.URL.createObjectURL(blob);
                 a.href = url;
                 a.download = fileName;
