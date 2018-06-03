@@ -905,7 +905,7 @@ angular.module('optinomicDataModule')
 
                     var current_app = current_app_f.module;
                     if (current_app.identifier === app_identifier) {
-                        myApp.current = current_app.module;
+                        myApp.current = current_app;
 
 
                         return_data.calculations = [];
